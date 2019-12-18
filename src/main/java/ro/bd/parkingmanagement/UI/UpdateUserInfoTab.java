@@ -19,33 +19,22 @@ public class UpdateUserInfoTab extends javax.swing.JPanel {
 	private static final long serialVersionUID = 1L;
 	private javax.swing.JScrollPane bankAccountsInfoPanel;
 	private javax.swing.JTable bankAccountsTable;
-	private javax.swing.JButton changePasswordButton;
-	private javax.swing.JPasswordField confirmPasswordField;
-	private javax.swing.JLabel confirmPasswordLabel;
 	private javax.swing.JTextField emailField;
 	private javax.swing.JLabel emailLabel;
-	private javax.swing.JPasswordField newPasswordField;
-	private javax.swing.JLabel newPasswordLabel;
-	private javax.swing.JPasswordField oldPasswordField;
-	private javax.swing.JLabel oldPasswordLabel;
 	private javax.swing.JButton saveButton;
 	private javax.swing.JTabbedPane updateUserInfoPanel;
 	private javax.swing.JPanel userInfoPanel;
 	private javax.swing.JTextField usernameField;
 	private javax.swing.JLabel usernameLabel;
-	private javax.swing.JComboBox<String> vehicleTypeComboBox;
-	private javax.swing.JLabel vehicleTypeLabel;
 	private javax.swing.JButton addNewBankAccount;
 	private static BankAccountDAO bankAccountDAO = new BankAccountDAOImpl();
 	private static UserDAO userDAO = new UserDAOImpl();
-	private boolean passwordVisibility = false;
 	private User currentUser = null;
 
 	private void displayCurrentUserInfo() {
 		if (currentUser != null) {
 			usernameField.setText(currentUser.getUsername());
 			emailField.setText(currentUser.getEmail());
-			oldPasswordField.setText(currentUser.getPassword());
 		}
 	}
 
@@ -99,187 +88,128 @@ public class UpdateUserInfoTab extends javax.swing.JPanel {
 		}
 	}
 
-	private void setPasswordVisibility(boolean flag) {
-		passwordVisibility = flag;
-		oldPasswordField.setVisible(flag);
-		oldPasswordLabel.setVisible(flag);
-		newPasswordField.setVisible(flag);
-		newPasswordLabel.setVisible(flag);
-		confirmPasswordField.setVisible(flag);
-		confirmPasswordLabel.setVisible(flag);
-	}
-
+	@SuppressWarnings("serial")
 	private void initComponents() {
 
 		updateUserInfoPanel = new javax.swing.JTabbedPane();
-		userInfoPanel = new javax.swing.JPanel();
-		usernameField = new javax.swing.JTextField();
-		usernameLabel = new javax.swing.JLabel();
-		emailLabel = new javax.swing.JLabel();
-		emailField = new javax.swing.JTextField();
-		newPasswordField = new javax.swing.JPasswordField();
-		newPasswordLabel = new javax.swing.JLabel();
-		confirmPasswordLabel = new javax.swing.JLabel();
-		confirmPasswordField = new javax.swing.JPasswordField();
-		vehicleTypeComboBox = new javax.swing.JComboBox<>();
-		vehicleTypeLabel = new javax.swing.JLabel();
-		changePasswordButton = new javax.swing.JButton();
-		oldPasswordLabel = new javax.swing.JLabel();
-		oldPasswordField = new javax.swing.JPasswordField();
-		bankAccountsInfoPanel = new javax.swing.JScrollPane();
-		bankAccountsTable = null;
-		saveButton = new javax.swing.JButton();
-		addNewBankAccount = new javax.swing.JButton();
-		addNewBankAccount.setVisible(false);
+        userInfoPanel = new javax.swing.JPanel();
+        usernameField = new javax.swing.JTextField();
+        usernameLabel = new javax.swing.JLabel();
+        emailLabel = new javax.swing.JLabel();
+        emailField = new javax.swing.JTextField();
+        saveButton = new javax.swing.JButton();
+        addNewBankAccount = new javax.swing.JButton();
+        bankAccountsInfoPanel = new javax.swing.JScrollPane();
+        bankAccountsTable = new javax.swing.JTable();
 
-		setPasswordVisibility(false);
+        usernameLabel.setText("Username:");
 
-		usernameLabel.setText("Username:");
+        emailLabel.setText("Email:");
 
-		emailLabel.setText("Email:");
+        saveButton.setText("Save");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
 
-		newPasswordLabel.setText("New password:");
+        addNewBankAccount.setText("Add bank account");
+        addNewBankAccount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addNewBankAccountActionPerformed(evt);
+            }
+        });
 
-		confirmPasswordLabel.setText("Confirm password:");
+        javax.swing.GroupLayout userInfoPanelLayout = new javax.swing.GroupLayout(userInfoPanel);
+        userInfoPanel.setLayout(userInfoPanelLayout);
+        userInfoPanelLayout.setHorizontalGroup(
+            userInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userInfoPanelLayout.createSequentialGroup()
+                .addGroup(userInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(userInfoPanelLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(userInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(emailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(usernameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(userInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(emailField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(usernameField)))
+                    .addGroup(userInfoPanelLayout.createSequentialGroup()
+                        .addGap(97, 97, 97)
+                        .addComponent(saveButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addNewBankAccount)))
+                .addContainerGap(128, Short.MAX_VALUE))
+        );
+        userInfoPanelLayout.setVerticalGroup(
+            userInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userInfoPanelLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(userInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(usernameLabel)
+                    .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(userInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(emailLabel))
+                .addGap(18, 18, 18)
+                .addGroup(userInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(saveButton)
+                    .addComponent(addNewBankAccount))
+                .addContainerGap(164, Short.MAX_VALUE))
+        );
 
-		vehicleTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(
-				new String[] { "motorcycle", "car", "van", "truck", "trailer" }));
+        updateUserInfoPanel.addTab("User", userInfoPanel);
 
-		vehicleTypeLabel.setText("Vehicle type:");
+        bankAccountsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-		changePasswordButton.setText("Change password");
-		changePasswordButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				changePasswordButtonActionPerformed(evt);
-			}
-		});
+            },
+            new String [] {
+                "BankAccountId", "UserId", "Card number", "Expiring date", "CVV code"
+            }
+        ) {
+            @SuppressWarnings("rawtypes")
+			Class[] types = new Class [] {
+                java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, true, true, true
+            };
 
-		oldPasswordLabel.setText("Old password:");
+            @SuppressWarnings({ "unchecked", "rawtypes" })
+			public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
-		saveButton.setText("Save");
-		saveButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				saveButtonActionPerformed(evt);
-			}
-		});
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        bankAccountsTable.setColumnSelectionAllowed(true);
+        bankAccountsTable.getTableHeader().setReorderingAllowed(false);
+        bankAccountsInfoPanel.setViewportView(bankAccountsTable);
+        bankAccountsTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-		javax.swing.GroupLayout userInfoPanelLayout = new javax.swing.GroupLayout(userInfoPanel);
-		userInfoPanel.setLayout(userInfoPanelLayout);
-		userInfoPanelLayout.setHorizontalGroup(userInfoPanelLayout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(userInfoPanelLayout.createSequentialGroup().addGroup(userInfoPanelLayout
-						.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(userInfoPanelLayout.createSequentialGroup().addGap(88, 88, 88)
-								.addComponent(changePasswordButton))
-						.addGroup(userInfoPanelLayout.createSequentialGroup().addGap(20, 20, 20)
-								.addGroup(userInfoPanelLayout
-										.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-										.addGroup(userInfoPanelLayout.createSequentialGroup()
-												.addGroup(userInfoPanelLayout
-														.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING,
-																false)
-														.addComponent(vehicleTypeLabel,
-																javax.swing.GroupLayout.DEFAULT_SIZE, 150,
-																Short.MAX_VALUE)
-														.addComponent(emailLabel, javax.swing.GroupLayout.DEFAULT_SIZE,
-																javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-														.addComponent(usernameLabel,
-																javax.swing.GroupLayout.DEFAULT_SIZE,
-																javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-												.addGroup(userInfoPanelLayout
-														.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-																false)
-														.addComponent(emailField,
-																javax.swing.GroupLayout.Alignment.LEADING)
-														.addComponent(vehicleTypeComboBox,
-																javax.swing.GroupLayout.Alignment.LEADING, 0, 200,
-																Short.MAX_VALUE)
-														.addComponent(usernameField)))
-										.addGroup(userInfoPanelLayout.createSequentialGroup()
-												.addGroup(userInfoPanelLayout
-														.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-														.addComponent(confirmPasswordLabel,
-																javax.swing.GroupLayout.DEFAULT_SIZE,
-																javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-														.addComponent(oldPasswordLabel,
-																javax.swing.GroupLayout.DEFAULT_SIZE,
-																javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-														.addComponent(newPasswordLabel,
-																javax.swing.GroupLayout.DEFAULT_SIZE,
-																javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-												.addGroup(userInfoPanelLayout
-														.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING,
-																false)
-														.addComponent(newPasswordField,
-																javax.swing.GroupLayout.DEFAULT_SIZE, 200,
-																Short.MAX_VALUE)
-														.addComponent(oldPasswordField)
-														.addComponent(confirmPasswordField)))
-										.addComponent(saveButton))))
-						.addContainerGap(355, Short.MAX_VALUE)));
-		userInfoPanelLayout.setVerticalGroup(userInfoPanelLayout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(userInfoPanelLayout.createSequentialGroup().addGap(21, 21, 21)
-						.addGroup(userInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(usernameLabel).addComponent(usernameField,
-										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-						.addGroup(userInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent(emailLabel))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-						.addGroup(userInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(vehicleTypeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24,
-										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent(vehicleTypeComboBox))
-						.addGap(14, 14, 14).addComponent(changePasswordButton)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-						.addGroup(userInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(oldPasswordLabel).addComponent(oldPasswordField,
-										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-						.addGroup(userInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(newPasswordLabel).addComponent(newPasswordField,
-										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-						.addGroup(userInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(confirmPasswordLabel).addComponent(confirmPasswordField,
-										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-						.addComponent(saveButton).addContainerGap()));
+        updateUserInfoPanel.addTab("Bank accounts", bankAccountsInfoPanel);
 
-		updateUserInfoPanel.addTab("User", userInfoPanel);
-
-		bankAccountsInfoPanel.setViewportView(bankAccountsTable);
-
-		updateUserInfoPanel.addTab("Bank accounts", bankAccountsInfoPanel);
-
-		addNewBankAccount.setText("Add bank account");
-		addNewBankAccount.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				addNewBankAccountActionPerformed(evt);
-			}
-		});
-
-		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-		this.setLayout(layout);
-		layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup().addContainerGap().addComponent(updateUserInfoPanel)
-						.addContainerGap())
-				.addGroup(layout.createSequentialGroup().addGap(33, 33, 33).addComponent(addNewBankAccount)
-						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup().addContainerGap()
-						.addComponent(updateUserInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(addNewBankAccount)));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(updateUserInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(updateUserInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                .addGap(32, 32, 32))
+        );
 	}// </editor-fold>
 
 	private boolean isUserInfoValid(User user) {
@@ -300,49 +230,16 @@ public class UpdateUserInfoTab extends javax.swing.JPanel {
 
 	private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		User user = new User();
-		String oldPassword, newPassword, confirmPassword;
 		user.setUserId(currentUser.getUserId());
 		user.setUsername(usernameField.getText());
 		user.setEmail(emailField.getText());
-		if (passwordVisibility == true) {
-			oldPassword = String.valueOf(oldPasswordField.getPassword());
-			newPassword = String.valueOf(newPasswordField.getPassword());
-			confirmPassword = String.valueOf(confirmPasswordField.getPassword());
-			if (!oldPassword.equals(currentUser.getPassword())) {
-				JOptionPane.showMessageDialog(null, "Wrong old password");
-				return;
-			}
-			if (!newPassword.equals(confirmPassword)) {
-				JOptionPane.showMessageDialog(null, "Passwords don't match");
-				return;
-			}
-			if (newPassword.length() < 6) {
-				JOptionPane.showMessageDialog(null, "Password too short (min, 6 char)");
-				return;
-			}
-			user.setPassword(newPassword);
-		} else
-			user.setPassword(currentUser.getPassword());
 
 		if (isUserInfoValid(user)) {
 			user = userDAO.updateUser(currentUser.getUserId(), user);
 			if (user == null) {
 				return;
 			}
-			oldPasswordField.setText(user.getPassword());
 			currentUser = user;
-			newPasswordField.setText("");
-			confirmPasswordField.setText("");
-		}
-	}
-
-	private void changePasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		if (passwordVisibility == true) {
-			setPasswordVisibility(false);
-			passwordVisibility = false;
-		} else {
-			setPasswordVisibility(true);
-			passwordVisibility = true;
 		}
 	}
 

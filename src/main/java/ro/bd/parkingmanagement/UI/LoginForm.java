@@ -99,9 +99,6 @@ public class LoginForm extends Observable {
 		String password = String.valueOf(passwordField.getPassword());
 		User user = userDAO.checkCredentials(username, password);
 		if (user != null) {
-			//TODO: administrator selection
-			//boolean admin = userDAO.isAdmin(username, password);
-			//user.setAdmin(admin);
 			frame.setVisible(false);
 			setChanged();
 			notifyObservers(user);

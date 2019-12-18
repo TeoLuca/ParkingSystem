@@ -66,7 +66,7 @@ public class BankAccountDAOImpl extends OracleDatabaseConnection implements Bank
 	private int getNumberOfBankAccounts(int userId) {
 		try {
 			connect = DriverManager.getConnection(databaseURL, user, password);
-			preparedStatement = connect.prepareStatement("SELECT COUNT(*) FROM bankaccounts WHERE user_id=" + userId + ";");
+			preparedStatement = connect.prepareStatement("SELECT COUNT(*) FROM bankaccount WHERE Users_user_id=" + userId + ";");
 
 			resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
@@ -195,7 +195,7 @@ public class BankAccountDAOImpl extends OracleDatabaseConnection implements Bank
 	public synchronized JTable populateJTableFromDB(int userId) {
 		try {
 			connect = DriverManager.getConnection(databaseURL, user, password);
-			String sql = "SELECT * FROM bankaccount WHERE user_id=" + userId;
+			String sql = "SELECT * FROM bankaccount WHERE Users_user_id=" + userId;
 			preparedStatement = connect.prepareStatement(sql);
 			resultSet = preparedStatement.executeQuery();
 

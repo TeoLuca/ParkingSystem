@@ -16,7 +16,6 @@ public class SignUpForm extends javax.swing.JFrame {
 	private javax.swing.JPanel bankAccountDetailsPanel;
 	private javax.swing.JTextField cardNumberField;
 	private javax.swing.JLabel cardNumberLabel;
-	private javax.swing.JPasswordField confirmPasswordField;
 	private javax.swing.JSpinner currentValueField;
 	private javax.swing.JPasswordField cvvCodeField;
 	private javax.swing.JLabel cvvCodeLabel;
@@ -24,8 +23,10 @@ public class SignUpForm extends javax.swing.JFrame {
 	private javax.swing.JLabel emailLabel;
 	private javax.swing.JLabel errorLabel;
 	private javax.swing.JLabel expiringDateLabel;
+	private javax.swing.JLabel currentValueLabel;
 	private org.jdesktop.swingx.JXDatePicker expiringDatePicker;
 	private javax.swing.JPasswordField passwordField;
+	
 	private javax.swing.JLabel passwordLabel;
 	private javax.swing.JButton submitButton;
 	private javax.swing.JPanel userDetailsPanel;
@@ -52,31 +53,30 @@ public class SignUpForm extends javax.swing.JFrame {
 		this.setVisible(false);
 		this.setTitle("Sign up");
 		userDetailsPanel = new javax.swing.JPanel();
-		usernameLabel = new javax.swing.JLabel();
-		passwordLabel = new javax.swing.JLabel();
-		emailLabel = new javax.swing.JLabel();
-		passwordField = new javax.swing.JPasswordField();
-		confirmPasswordField = new javax.swing.JPasswordField();
-		usernameField = new javax.swing.JTextField();
-		emailField = new javax.swing.JTextField();
-		vehicleTypeComboBox = new javax.swing.JComboBox<>();
-		bankAccountDetailsPanel = new javax.swing.JPanel();
-		cardNumberLabel = new javax.swing.JLabel();
-		expiringDateLabel = new javax.swing.JLabel();
-		cvvCodeLabel = new javax.swing.JLabel();
-		cardNumberField = new javax.swing.JTextField();
-		expiringDatePicker = new org.jdesktop.swingx.JXDatePicker();
-		cvvCodeField = new javax.swing.JPasswordField();
+        usernameLabel = new javax.swing.JLabel();
+        passwordLabel = new javax.swing.JLabel();
+        emailLabel = new javax.swing.JLabel();
+        passwordField = new javax.swing.JPasswordField();
+        usernameField = new javax.swing.JTextField();
+        emailField = new javax.swing.JTextField();
+        bankAccountDetailsPanel = new javax.swing.JPanel();
+		currentValueLabel = new javax.swing.JLabel();
 		currentValueField = new javax.swing.JSpinner();
-		submitButton = new javax.swing.JButton();
-		errorLabel = new javax.swing.JLabel();
+        expiringDatePicker = new org.jdesktop.swingx.JXDatePicker();
+        cardNumberLabel = new javax.swing.JLabel();
+        expiringDateLabel = new javax.swing.JLabel();
+        cvvCodeLabel = new javax.swing.JLabel();
+        cardNumberField = new javax.swing.JTextField();
+        cvvCodeField = new javax.swing.JPasswordField();
+        submitButton = new javax.swing.JButton();
+        errorLabel = new javax.swing.JLabel();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-		userDetailsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("User details"));
-		userDetailsPanel.setFont(new java.awt.Font("Liberation Sans", 0, 12)); // NOI18N
+        userDetailsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("User"));
+        userDetailsPanel.setFont(new java.awt.Font("Liberation Sans", 0, 12)); // NOI18N
 
-		usernameLabel.setText("Username:");
+        usernameLabel.setText("Username:");
 
         passwordLabel.setText("Password:");
 
@@ -131,36 +131,50 @@ public class SignUpForm extends javax.swing.JFrame {
         cvvCodeLabel.setText("CVV code:");
 
         javax.swing.GroupLayout bankAccountDetailsPanelLayout = new javax.swing.GroupLayout(bankAccountDetailsPanel);
-        bankAccountDetailsPanel.setLayout(bankAccountDetailsPanelLayout);
-        bankAccountDetailsPanelLayout.setHorizontalGroup(
-            bankAccountDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bankAccountDetailsPanelLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(bankAccountDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(expiringDateLabel)
-                    .addComponent(cvvCodeLabel)
-                    .addComponent(cardNumberLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(bankAccountDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cardNumberField, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                    .addComponent(cvvCodeField))
-                .addContainerGap())
-        );
-        bankAccountDetailsPanelLayout.setVerticalGroup(
-            bankAccountDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bankAccountDetailsPanelLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(bankAccountDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cardNumberLabel)
-                    .addComponent(cardNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(expiringDateLabel)
-                .addGap(14, 14, 14)
-                .addGroup(bankAccountDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cvvCodeLabel)
-                    .addComponent(cvvCodeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
+		bankAccountDetailsPanel.setLayout(bankAccountDetailsPanelLayout);
+		bankAccountDetailsPanelLayout.setHorizontalGroup(bankAccountDetailsPanelLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(bankAccountDetailsPanelLayout.createSequentialGroup().addGap(21, 21, 21)
+						.addGroup(bankAccountDetailsPanelLayout
+								.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addComponent(expiringDateLabel).addComponent(cvvCodeLabel)
+								.addComponent(cardNumberLabel).addComponent(currentValueLabel))
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+								javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGroup(bankAccountDetailsPanelLayout
+								.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+								.addComponent(cardNumberField)
+								.addComponent(expiringDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, 136,
+										Short.MAX_VALUE)
+								.addComponent(cvvCodeField).addComponent(currentValueField))
+						.addContainerGap()));
+		bankAccountDetailsPanelLayout.setVerticalGroup(bankAccountDetailsPanelLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(bankAccountDetailsPanelLayout.createSequentialGroup().addGap(18, 18, 18)
+						.addGroup(bankAccountDetailsPanelLayout
+								.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+								.addComponent(cardNumberLabel).addComponent(cardNumberField,
+										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+						.addGroup(bankAccountDetailsPanelLayout
+								.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addComponent(expiringDateLabel)
+								.addComponent(expiringDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addGap(12, 12, 12)
+						.addGroup(bankAccountDetailsPanelLayout
+								.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addComponent(cvvCodeLabel).addComponent(cvvCodeField,
+										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+						.addGroup(bankAccountDetailsPanelLayout
+								.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addComponent(currentValueLabel).addComponent(currentValueField,
+										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
         submitButton.setText("Submit");
         submitButton.addActionListener(new java.awt.event.ActionListener() {
@@ -221,7 +235,6 @@ public class SignUpForm extends javax.swing.JFrame {
 		usernameField.setText("");
 		emailField.setText("");
 		passwordField.setText("");
-		confirmPasswordField.setText("");
 		vehicleTypeComboBox.setSelectedIndex(0);
 		cardNumberField.setText("");
 		expiringDatePicker.setDate(null);
@@ -240,13 +253,7 @@ public class SignUpForm extends javax.swing.JFrame {
 			errorLabel.setText("Email already in the database");
 			return;
 		}
-		String password;
-		if (String.valueOf(passwordField.getPassword()).equals(String.valueOf(confirmPasswordField.getPassword())))
-			password = String.valueOf(passwordField.getPassword());
-		else {
-			errorLabel.setText("Passwords do not match");
-			return;
-		}
+		String password = String.valueOf(passwordField.getPassword());
 		if (password.length() <= 5) {
 			errorLabel.setText("Password too short (min. 6 char)");
 			return;

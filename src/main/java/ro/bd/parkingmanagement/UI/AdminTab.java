@@ -36,6 +36,7 @@ public class AdminTab extends javax.swing.JPanel {
 	private javax.swing.JTable ticketsTable;
 	private javax.swing.JScrollPane usersTab;
 	private javax.swing.JTable usersTable;
+	
 	private static UserDAO userDAO = new UserDAOImpl();
 	private static PriceDAO priceDAO = new PriceDAOImpl();
 	private static ParkingLotDAO parkingSpaceDAO = new ParkingLotDAOImpl();
@@ -139,48 +140,205 @@ public class AdminTab extends javax.swing.JPanel {
 		addEntryButton = new javax.swing.JButton();
 		refreshButton = new javax.swing.JButton();
 
-		administrativePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Administrative",
-				javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
-				new java.awt.Font("Liberation Sans", 0, 12))); // NOI18N
-		administrativePanel.setFont(new java.awt.Font("DejaVu Sans", 1, 12)); // NOI18N
+		administrativePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Administrative", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Liberation Sans", 0, 12))); // NOI18N
+        administrativePanel.setFont(new java.awt.Font("DejaVu Sans", 1, 12)); // NOI18N
 
-		usersTab.setViewportView(usersTable);
+        usersTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-		administrativePanel.addTab("Users", usersTab);
+            },
+            new String [] {
+                "Id", "Username", "Password", "Email", "Update", "Delete"
+            }
+        ) {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			@SuppressWarnings("rawtypes")
+			Class[] types = new Class [] {
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true
+            };
 
-		pricesTab.setViewportView(pricesTable);
+            @SuppressWarnings({ "unchecked", "rawtypes" })
+			public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
-		administrativePanel.addTab("Prices", pricesTab);
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        usersTable.setColumnSelectionAllowed(true);
+        usersTable.getTableHeader().setReorderingAllowed(false);
+        usersTab.setViewportView(usersTable);
+        usersTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-		parkingLotsTab.setViewportView(parkingLotsTable);
+        administrativePanel.addTab("Users", usersTab);
 
-		administrativePanel.addTab("Parking lots", parkingLotsTab);
+        pricesTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-		subscriptionsTab.setViewportView(subscriptionsTable);
+            },
+            new String [] {
+                "Id", "Day price", "Night price", "Update", "Delete"
+            }
+        ) {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			@SuppressWarnings("rawtypes")
+			Class[] types = new Class [] {
+                java.lang.Long.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true
+            };
 
-		administrativePanel.addTab("Subscriptions", subscriptionsTab);
+            @SuppressWarnings({ "unchecked", "rawtypes" })
+			public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
-		ticketsTab.setViewportView(ticketsTable);
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        pricesTable.setColumnSelectionAllowed(true);
+        pricesTable.setMaximumSize(new java.awt.Dimension(2147483647, 128));
+        pricesTable.getTableHeader().setReorderingAllowed(false);
+        pricesTab.setViewportView(pricesTable);
+        pricesTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-		administrativePanel.addTab("Tickets", ticketsTab);
+        administrativePanel.addTab("Prices", pricesTab);
 
-		addEntryButton.setFont(new java.awt.Font("DejaVu Sans", 1, 12)); // NOI18N
-		addEntryButton.setText("Add");
-		addEntryButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				addEntryButtonActionPerformed(evt);
-			}
-		});
+        parkingLotsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-		refreshButton.setFont(new java.awt.Font("DejaVu Sans", 1, 12));
-		refreshButton.setText("Refresh tab");
-		refreshButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				refreshButtonActionPerformed(evt);
-			}
-		});
+            },
+            new String [] {
+                "Lot ID", "Floor No", "Availability", "Update", "Delete"
+            }
+        ) {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			@SuppressWarnings("rawtypes")
+			Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true
+            };
 
-		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+            @SuppressWarnings({ "unchecked", "rawtypes" })
+			public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        parkingLotsTable.setColumnSelectionAllowed(true);
+        parkingLotsTab.setViewportView(parkingLotsTable);
+        parkingLotsTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
+        administrativePanel.addTab("Parking lots", parkingLotsTab);
+
+        subscriptionsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id", "User Id", "Lot No", "Expiring date", "Update", "Delete"
+            }
+        ) {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			@SuppressWarnings("rawtypes")
+			Class[] types = new Class [] {
+                java.lang.Long.class, java.lang.Long.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true
+            };
+
+            @SuppressWarnings({ "unchecked", "rawtypes" })
+			public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        subscriptionsTable.setColumnSelectionAllowed(true);
+        subscriptionsTable.getTableHeader().setReorderingAllowed(false);
+        subscriptionsTab.setViewportView(subscriptionsTable);
+        subscriptionsTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
+        administrativePanel.addTab("Subscriptions", subscriptionsTab);
+
+        ticketsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id", "Ticket code", "Floor No", "Update", "Delete"
+            }
+        ) {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			@SuppressWarnings("rawtypes")
+			Class[] types = new Class [] {
+                java.lang.Long.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true
+            };
+
+            @SuppressWarnings({ "unchecked", "rawtypes" })
+			public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        ticketsTable.setColumnSelectionAllowed(true);
+        ticketsTable.getTableHeader().setReorderingAllowed(false);
+        ticketsTab.setViewportView(ticketsTable);
+        ticketsTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
+        administrativePanel.addTab("Tickets", ticketsTab);
+
+        addEntryButton.setFont(new java.awt.Font("DejaVu Sans", 1, 12)); // NOI18N
+        addEntryButton.setText("Add");
+        addEntryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addEntryButtonActionPerformed(evt);
+            }
+        });
+
+        refreshButton.setText("Refresh tab");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

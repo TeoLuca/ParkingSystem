@@ -43,51 +43,54 @@ public class DisplayPanelTab extends javax.swing.JPanel {
 	@SuppressWarnings("unchecked")
 	private void initComponents() {
 
-		displayPanelTable.setModel(new javax.swing.table.DefaultTableModel(
-	            new Object [][] {
-	                {null, null},
-	                {null, null}
-	            },
-	            new String [] {
-	                "Available", "Price"
-	            }
-	        ) {
-	            /**
-				 * 
-				 */
-				private static final long serialVersionUID = 1L;
-				@SuppressWarnings("rawtypes")
-				Class[] types = new Class [] {
-	                java.lang.String.class, java.lang.String.class
-	            };
-	            boolean[] canEdit = new boolean [] {
-	                false, false
-	            };
+		displayPanel = new javax.swing.JScrollPane();
+        displayPanelTable = new javax.swing.JTable();
 
-	            @SuppressWarnings("rawtypes")
-				public Class getColumnClass(int columnIndex) {
-	                return types [columnIndex];
-	            }
+        displayPanelTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Available", "Price"
+            }
+        ) {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			@SuppressWarnings("rawtypes")
+			Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
 
-	            public boolean isCellEditable(int rowIndex, int columnIndex) {
-	                return canEdit [columnIndex];
-	            }
-	        });
-	        displayPanelTable.setColumnSelectionAllowed(true);
-	        displayPanelTable.getTableHeader().setReorderingAllowed(false);
-	        displayPanel.setViewportView(displayPanelTable);
-	        displayPanelTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+            @SuppressWarnings("rawtypes")
+			public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
-	        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-	        this.setLayout(layout);
-	        layout.setHorizontalGroup(
-	            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-	            .addComponent(displayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
-	        );
-	        layout.setVerticalGroup(
-	            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-	            .addComponent(displayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
-	        );
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        displayPanelTable.setColumnSelectionAllowed(true);
+        displayPanelTable.getTableHeader().setReorderingAllowed(false);
+        displayPanel.setViewportView(displayPanelTable);
+        displayPanelTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(displayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(displayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
+        );
 	}
 
 	public void updateDisplayPanel() {
@@ -96,8 +99,8 @@ public class DisplayPanelTab extends javax.swing.JPanel {
 
 		List<Price> priceList = priceDAO.getAll();
 		displayPanelTable.getModel().setValueAt(
-				"" + availableLots + "/" + (availableLots + occupiedLots), 0, 1);
+				"" + availableLots + "/" + (availableLots + occupiedLots), 0, 0);
 
-		displayPanelTable.getModel().setValueAt(priceList.get(0).getDayPrice() + " lei / h", 0, 2);
+		displayPanelTable.getModel().setValueAt(priceList.get(0).getDayPrice() + " lei / h", 0, 1);
 	}
 }

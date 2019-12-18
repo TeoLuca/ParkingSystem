@@ -183,17 +183,11 @@ public class ParkingLotDAOImpl extends OracleDatabaseConnection implements Parki
 			connect = DriverManager.getConnection(databaseURL, user, password);
 			String call = "{call Parking_Lot_pkg.getFirstAvailable(?)}";
 			OracleCallableStatement cstmt = (OracleCallableStatement) connect.prepareCall(call);
-			cstmt.registerOutParameter(1, OracleTypes.CURSOR);
+			cstmt.registerOutParameter(1, OracleTypes.NUMBER);
 			cstmt.execute();
-			resultSet = cstmt.getCursor(1);
-			if (resultSet.next()) {
-				ParkingLot parkingLot = new ParkingLot();
-				parkingLot.setLotNo(resultSet.getInt(1));
-				parkingLot.setFloorNo(resultSet.getInt(2));
-				String available = resultSet.getString(3);
-				boolean av = (available.equals("1")) ? true : false;
-				parkingLot.setAvailability(av);
-				return parkingLot;
+			int parkingLotId = cstmt.getInt(1);
+			if (parkingLotId > 0) {
+				return getParkingLot(parkingLotId);
 			}
 		} catch (SQLException exception) {
 			exception.printStackTrace();

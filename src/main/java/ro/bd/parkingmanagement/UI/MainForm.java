@@ -2,6 +2,7 @@ package ro.bd.parkingmanagement.UI;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,10 +16,6 @@ public class MainForm extends javax.swing.JFrame implements Observer {
 	private static final long serialVersionUID = 1L;
 	private LoginForm loginForm;
 	private javax.swing.JTabbedPane workspacePanel;
-
-	private javax.swing.JButton updateControl;
-	private javax.swing.JButton subscribeControl;
-	private javax.swing.JButton adminControl;
 	
 	private javax.swing.JMenuBar menuBar;
 	private javax.swing.JMenu userMenu;
@@ -83,12 +80,8 @@ public class MainForm extends javax.swing.JFrame implements Observer {
 		subscribeTab = new SubscribeTab();
 		adminTab = new AdminTab();
 
-		this.setTitle("Parking management");
+		this.setTitle("Parking System");
 		loginForm.setVisible(false);
-		
-		workspacePanel.setEnabledAt(3, false);
-		workspacePanel.setEnabledAt(4, false);
-		workspacePanel.setEnabledAt(5, false);
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(760, 360));
@@ -101,31 +94,60 @@ public class MainForm extends javax.swing.JFrame implements Observer {
         workspacePanel.addTab("Update", updateTab);
         workspacePanel.addTab("Subscribe", subscribeTab);
         workspacePanel.addTab("Administrator", adminTab);
+        
+		workspacePanel.setEnabledAt(3, false);
+		workspacePanel.setEnabledAt(4, false);
+		workspacePanel.setEnabledAt(5, false);
 
         userMenu.setText("User");
 
         loginMenuItem.setText("Login");
-        loginMenuItem.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                loginMenuItemMouseClicked(evt);
-            }
+        loginMenuItem.addActionListener(new java.awt.event.ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loginMenuItemMouseClicked();
+			}
+        	
         });
+//        loginMenuItem.addMouseListener(new java.awt.event.MouseAdapter() {
+//            public void mouseClicked(java.awt.event.MouseEvent evt) {
+//                loginMenuItemMouseClicked(evt);
+//            }
+//        });
         userMenu.add(loginMenuItem);
 
         logoutMenuItem.setText("Logout");
-        logoutMenuItem.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                logoutMenuItemMouseClicked(evt);
-            }
+        logoutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				logoutMenuItemMouseClicked();
+			}
+        	
         });
+
+//        logoutMenuItem.addMouseListener(new java.awt.event.MouseAdapter() {
+//            public void mouseClicked(java.awt.event.MouseEvent evt) {
+//                logoutMenuItemMouseClicked(evt);
+//            }
+//        });
         userMenu.add(logoutMenuItem);
 
         registerMenuItem.setText("Register");
-        registerMenuItem.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                registerMenuItemMouseClicked(evt);
-            }
+        registerMenuItem.addActionListener(new java.awt.event.ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				registerMenuItemMouseClicked();
+			}
+        	
         });
+//        registerMenuItem.addMouseListener(new java.awt.event.MouseAdapter() {
+//            public void mouseClicked(java.awt.event.MouseEvent evt) {
+//                registerMenuItemMouseClicked(evt);
+//            }
+//        });
         userMenu.add(registerMenuItem);
 
         menuBar.add(userMenu);
@@ -160,11 +182,8 @@ public class MainForm extends javax.swing.JFrame implements Observer {
 
 			workspacePanel.setEnabledAt(3, true);
 			workspacePanel.setEnabledAt(4, true);
-			updateControl.setVisible(true);
-			subscribeControl.setVisible(true);
 			subscribeTab.cleanSubscribeTabOnUserLogin();
 			if (user.isAdmin()) {
-				adminControl.setVisible(true);
 				workspacePanel.setEnabledAt(5, true);
 			}
 			
@@ -195,7 +214,7 @@ public class MainForm extends javax.swing.JFrame implements Observer {
 		workspacePanel.setSelectedIndex(5);
 	}*/
 
-	private void loginMenuItemMouseClicked(java.awt.event.MouseEvent evt) {
+	private void loginMenuItemMouseClicked() {
 		Point currentLocation = this.getLocationOnScreen();
 		Dimension loginWindowDimension = loginForm.getLoginWindowSize();
 		currentLocation.x += this.getWidth() / 2 - loginWindowDimension.getWidth() / 2;
@@ -205,11 +224,8 @@ public class MainForm extends javax.swing.JFrame implements Observer {
 		loginForm.setVisible(true);
     }
 
-    private void logoutMenuItemMouseClicked(java.awt.event.MouseEvent evt) {
+    private void logoutMenuItemMouseClicked() {
     	updateUserInfoTab.setCurrentUser(null);
-		updateControl.setVisible(false);
-		subscribeControl.setVisible(false);
-		adminControl.setVisible(false);
 
 		workspacePanel.setEnabledAt(3, false);
 		workspacePanel.setEnabledAt(4, false);
@@ -220,7 +236,7 @@ public class MainForm extends javax.swing.JFrame implements Observer {
 		workspacePanel.setSelectedIndex(0);
     }
 
-    private void registerMenuItemMouseClicked(java.awt.event.MouseEvent evt) {
+    private void registerMenuItemMouseClicked() {
     	Point currentLocation = this.getLocationOnScreen();
 		Dimension loginWindowDimension = signUpForm.getSize();
 		currentLocation.x += this.getWidth() / 2 - loginWindowDimension.getWidth() / 2;

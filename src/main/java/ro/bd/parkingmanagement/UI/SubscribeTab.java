@@ -5,7 +5,6 @@ import java.awt.event.ItemListener;
 import java.sql.Date;
 
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -17,9 +16,9 @@ import ro.bd.parkingmanagement.DAO.PriceDAO;
 import ro.bd.parkingmanagement.DAO.PriceDAOImpl;
 import ro.bd.parkingmanagement.DAO.SubscriptionDAO;
 import ro.bd.parkingmanagement.DAO.SubscriptionDAOImpl;
-import ro.bd.parkingmanagement.model.Price;
 import ro.bd.parkingmanagement.model.ParkingLot;
 import ro.bd.parkingmanagement.model.ParkingSubscription;
+import ro.bd.parkingmanagement.model.Price;
 import ro.bd.parkingmanagement.model.User;
 
 public class SubscribeTab extends javax.swing.JPanel {
@@ -32,7 +31,6 @@ public class SubscribeTab extends javax.swing.JPanel {
 	private javax.swing.JLabel bankAccountLabel;
 	private javax.swing.JButton payButton;
 	private javax.swing.JLabel paymentLabel;
-	private javax.swing.JProgressBar paymentProgressBar;
 	private javax.swing.JPanel selectSubscriptionPanel;
 	private javax.swing.JTabbedPane subscriptionPanel;
 	private javax.swing.JScrollPane subscriptionsTab;
@@ -40,8 +38,6 @@ public class SubscribeTab extends javax.swing.JPanel {
 	private javax.swing.JComboBox<String> timeComboBox;
 	private javax.swing.JLabel timeLabel;
 	private javax.swing.JScrollPane userSubscriptionsPanel;
-	private javax.swing.JComboBox<String> vehicleTypeComboBox;
-	private javax.swing.JLabel vehicleTypeLabel;
 	private javax.swing.JLabel totalCostLabel;
 	private static SubscriptionDAO subscriptionDAO = new SubscriptionDAOImpl();
 	private static PriceDAO priceDAO = new PriceDAOImpl();
@@ -69,9 +65,6 @@ public class SubscribeTab extends javax.swing.JPanel {
 
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				paymentProgressBar.setEnabled(false);
-				paymentProgressBar.setVisible(false);
-				paymentProgressBar.setValue(0);
 				paymentLabel.setVisible(false);
 				int tab = subscriptionPanel.getSelectedIndex();
 				if (tab == 1) {
@@ -90,22 +83,10 @@ public class SubscribeTab extends javax.swing.JPanel {
 				}
 			}
 		});
-		vehicleTypeComboBox.addItemListener(new ItemListener() {
-
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				if (e.getStateChange() == ItemEvent.SELECTED) {
-					displayAmountToPay();
-				}
-			}
-		});
 
 	}
 	
 	public void cleanSubscribeTabOnUserLogin() {
-		paymentProgressBar.setEnabled(false);
-		paymentProgressBar.setVisible(false);
-		paymentProgressBar.setValue(0);
 		paymentLabel.setVisible(false);
 	}
 
@@ -137,156 +118,138 @@ public class SubscribeTab extends javax.swing.JPanel {
 
 	}
 
+	@SuppressWarnings("serial")
 	private void initComponents() {
 
 		subscriptionPanel = new javax.swing.JTabbedPane();
-		selectSubscriptionPanel = new javax.swing.JPanel();
-		vehicleTypeComboBox = new javax.swing.JComboBox<>();
-		timeComboBox = new javax.swing.JComboBox<>();
-		vehicleTypeLabel = new javax.swing.JLabel();
-		timeLabel = new javax.swing.JLabel();
-		bankAccountComboBox = new javax.swing.JComboBox<>();
-		bankAccountLabel = new javax.swing.JLabel();
+        selectSubscriptionPanel = new javax.swing.JPanel();
+        timeComboBox = new javax.swing.JComboBox<>();
+        timeLabel = new javax.swing.JLabel();
+        bankAccountComboBox = new javax.swing.JComboBox<>();
+        bankAccountLabel = new javax.swing.JLabel();
+        payButton = new javax.swing.JButton();
+        paymentLabel = new javax.swing.JLabel();
+        totalCostLabel = new javax.swing.JLabel();
+        userSubscriptionsPanel = new javax.swing.JScrollPane();
+        subscriptionsTab = new javax.swing.JScrollPane();
+        subscriptionsTable = new javax.swing.JTable();
 
-		paymentProgressBar = new javax.swing.JProgressBar();
-		paymentProgressBar.setValue(0);
-		paymentProgressBar.setStringPainted(true);
+        timeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 month", "6 months", "12 months" }));
 
-		payButton = new javax.swing.JButton();
-		paymentLabel = new javax.swing.JLabel();
-		totalCostLabel = new javax.swing.JLabel();
-		totalCostLabel.setFont(new java.awt.Font("DejaVu Sans", 1, 12));
-		userSubscriptionsPanel = new javax.swing.JScrollPane();
-		subscriptionsTab = new javax.swing.JScrollPane();
+        timeLabel.setText("Time period:");
 
-		if (currentUser != null)
-			subscriptionsTable = subscriptionDAO.populateJTableFromDB(currentUser.getUserId());
-		else
-			subscriptionsTable = null;
+        bankAccountComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bank account 1", "Bank account 2", "Bank account 3", "Bank account 4" }));
 
-		paymentProgressBar.setVisible(false);
-		paymentLabel.setVisible(false);
+        bankAccountLabel.setText("Bank account:");
 
-		vehicleTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(
-				new String[] { "motorcycle", "car", "van", "truck", "trailer" }));
+        payButton.setText("Pay");
+        payButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                payButtonActionPerformed(evt);
+            }
+        });
 
-		timeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(
-				new String[] { "1 month", "2 months", "3 months", "6 months", "12 months" }));
+        paymentLabel.setForeground(new java.awt.Color(0, 180, 0));
+        paymentLabel.setText("Payment succeded. Switch to the next tab.");
 
-		vehicleTypeLabel.setText("Vehicle type:");
+        totalCostLabel.setText("Total cost:");
 
-		timeLabel.setText("Time period:");
+        javax.swing.GroupLayout selectSubscriptionPanelLayout = new javax.swing.GroupLayout(selectSubscriptionPanel);
+        selectSubscriptionPanel.setLayout(selectSubscriptionPanelLayout);
+        selectSubscriptionPanelLayout.setHorizontalGroup(
+            selectSubscriptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(selectSubscriptionPanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(selectSubscriptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(totalCostLabel)
+                    .addGroup(selectSubscriptionPanelLayout.createSequentialGroup()
+                        .addGroup(selectSubscriptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(timeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                            .addComponent(payButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(selectSubscriptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(selectSubscriptionPanelLayout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addGroup(selectSubscriptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(timeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(bankAccountComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(selectSubscriptionPanelLayout.createSequentialGroup()
+                                .addGap(28, 28, 28)
+                                .addComponent(paymentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(bankAccountLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(93, Short.MAX_VALUE))
+        );
+        selectSubscriptionPanelLayout.setVerticalGroup(
+            selectSubscriptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(selectSubscriptionPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(selectSubscriptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(timeLabel)
+                    .addComponent(timeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(selectSubscriptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bankAccountLabel)
+                    .addComponent(bankAccountComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(totalCostLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
+                .addGroup(selectSubscriptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(payButton)
+                    .addComponent(paymentLabel))
+                .addGap(30, 30, 30))
+        );
 
-		String[] cardNumberArray;
-		if (currentUser != null)
-			cardNumberArray = bankAccountDAO.getAllCardNumbers(currentUser.getUserId());
-		else
-			cardNumberArray = new String[1];
-		bankAccountComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(cardNumberArray));
+        subscriptionPanel.addTab("Select subscription", selectSubscriptionPanel);
 
-		bankAccountLabel.setText("Bank account:");
+        subscriptionsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-		payButton.setText("Pay");
-		payButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				payButtonActionPerformed(evt);
-			}
-		});
+            },
+            new String [] {
+                "Id", "User Id", "Lot no", "Expiring date", "Update", "Delete"
+            }
+        ) {
+            @SuppressWarnings("rawtypes")
+			Class[] types = new Class [] {
+                java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true
+            };
 
-		paymentLabel.setForeground(new java.awt.Color(0, 180, 0));
-		paymentLabel.setText("Payment succeded. You can see your subscriptions in the next tab.");
+            @SuppressWarnings({ "unchecked", "rawtypes" })
+			public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
-		totalCostLabel.setText("Total cost:");
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        subscriptionsTable.setColumnSelectionAllowed(true);
+        subscriptionsTable.getTableHeader().setReorderingAllowed(false);
+        subscriptionsTab.setViewportView(subscriptionsTable);
+        subscriptionsTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-		javax.swing.GroupLayout selectSubscriptionPanelLayout = new javax.swing.GroupLayout(selectSubscriptionPanel);
-		selectSubscriptionPanel.setLayout(selectSubscriptionPanelLayout);
-		selectSubscriptionPanelLayout.setHorizontalGroup(selectSubscriptionPanelLayout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(selectSubscriptionPanelLayout.createSequentialGroup().addGap(20, 20, 20)
-						.addGroup(selectSubscriptionPanelLayout
-								.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addComponent(totalCostLabel)
-								.addGroup(selectSubscriptionPanelLayout.createSequentialGroup()
-										.addGroup(selectSubscriptionPanelLayout
-												.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-												.addComponent(vehicleTypeLabel, javax.swing.GroupLayout.DEFAULT_SIZE,
-														120, Short.MAX_VALUE)
-												.addComponent(timeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 120,
-														Short.MAX_VALUE)
-												.addComponent(payButton, javax.swing.GroupLayout.DEFAULT_SIZE,
-														javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-										.addGroup(selectSubscriptionPanelLayout
-												.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-												.addGroup(selectSubscriptionPanelLayout.createSequentialGroup()
-														.addGap(27, 27, 27)
-														.addGroup(selectSubscriptionPanelLayout
-																.createParallelGroup(
-																		javax.swing.GroupLayout.Alignment.LEADING)
-																.addComponent(timeComboBox,
-																		javax.swing.GroupLayout.PREFERRED_SIZE, 170,
-																		javax.swing.GroupLayout.PREFERRED_SIZE)
-																.addComponent(vehicleTypeComboBox,
-																		javax.swing.GroupLayout.PREFERRED_SIZE, 170,
-																		javax.swing.GroupLayout.PREFERRED_SIZE)
-																.addComponent(bankAccountComboBox,
-																		javax.swing.GroupLayout.PREFERRED_SIZE, 170,
-																		javax.swing.GroupLayout.PREFERRED_SIZE)))
-												.addGroup(selectSubscriptionPanelLayout.createSequentialGroup()
-														.addGap(28, 28, 28).addComponent(paymentLabel,
-																javax.swing.GroupLayout.PREFERRED_SIZE, 485,
-																javax.swing.GroupLayout.PREFERRED_SIZE))))
-								.addGroup(selectSubscriptionPanelLayout
-										.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-										.addComponent(paymentProgressBar, javax.swing.GroupLayout.Alignment.LEADING,
-												javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-										.addComponent(bankAccountLabel, javax.swing.GroupLayout.Alignment.LEADING,
-												javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)))
-						.addContainerGap(156, Short.MAX_VALUE)));
-		selectSubscriptionPanelLayout.setVerticalGroup(selectSubscriptionPanelLayout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(selectSubscriptionPanelLayout.createSequentialGroup().addGap(16, 16, 16)
-						.addGroup(selectSubscriptionPanelLayout
-								.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(vehicleTypeLabel)
-								.addComponent(vehicleTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addGap(18, 18, 18)
-						.addGroup(selectSubscriptionPanelLayout
-								.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(timeLabel)
-								.addComponent(timeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addGap(18, 18, 18)
-						.addGroup(selectSubscriptionPanelLayout
-								.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(bankAccountLabel).addComponent(bankAccountComboBox,
-										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addGap(18, 18, 18).addComponent(totalCostLabel)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-						.addComponent(paymentProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 25,
-								javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addGap(18, 18, 18)
-						.addGroup(selectSubscriptionPanelLayout
-								.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(payButton)
-								.addComponent(paymentLabel))
-						.addGap(30, 30, 30)));
+        userSubscriptionsPanel.setViewportView(subscriptionsTab);
 
-		subscriptionPanel.addTab("Select subscription", selectSubscriptionPanel);
+        subscriptionPanel.addTab("Subscriptions", userSubscriptionsPanel);
 
-		subscriptionsTab.setViewportView(subscriptionsTable);
-
-		userSubscriptionsPanel.setViewportView(subscriptionsTab);
-
-		subscriptionPanel.addTab("Subscriptions", userSubscriptionsPanel);
-
-		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-		this.setLayout(layout);
-		layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-				layout.createSequentialGroup().addGap(21, 21, 21).addComponent(subscriptionPanel).addContainerGap()));
-		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup().addContainerGap()
-						.addComponent(subscriptionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-						.addContainerGap()));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(subscriptionPanel)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(subscriptionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 	}
 
 	private void payButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -316,22 +279,9 @@ public class SubscribeTab extends javax.swing.JPanel {
 
 		subscription = subscriptionDAO.subscribe(subscription, cardNumber, amountToPay);
 		if (subscription != null) {
-			paymentProgressBar.setVisible(true);
-			paymentProgressBar.setEnabled(true);
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					for (int i = 0; i <= 100; i+=10) {
-						paymentProgressBar.setValue(i);
-						try {
-							Thread.sleep(300);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-					paymentLabel.setVisible(true);
-				}
-			});
+			paymentLabel.setVisible(true);
+		} else {
+			JOptionPane.showMessageDialog(null, "Sorry, you don't have enough money...");
 		}
 	}
 
