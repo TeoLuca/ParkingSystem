@@ -27,10 +27,8 @@ public class MainForm extends javax.swing.JFrame implements Observer {
 	private DisplayPanelTab displayPanelTab;
 	private TicketTab ticketTab;
 	private PaymentTab paymentTab;
-	private UpdateUserInfoTab updateUserInfoTab;
 	private SubscribeTab subscribeTab;
 	private AdminTab adminTab;
-	private javax.swing.JScrollPane updateTab;
 
 	public MainForm() {
 		initComponents();
@@ -49,9 +47,6 @@ public class MainForm extends javax.swing.JFrame implements Observer {
 				case 2:
 					paymentTab.clearPaymentTab();
 					break;
-				case 3:
-					updateUserInfoTab.refreshTab();
-					break;
 				default:
 					break;
 				}
@@ -66,7 +61,6 @@ public class MainForm extends javax.swing.JFrame implements Observer {
 		signUpForm.setVisible(false);
 
 		workspacePanel = new javax.swing.JTabbedPane();
-        updateTab = new javax.swing.JScrollPane();
         menuBar = new javax.swing.JMenuBar();
         userMenu = new javax.swing.JMenu();
         loginMenuItem = new javax.swing.JMenuItem();
@@ -76,7 +70,6 @@ public class MainForm extends javax.swing.JFrame implements Observer {
 		displayPanelTab = new DisplayPanelTab();
 		ticketTab = new TicketTab();
 		paymentTab = new PaymentTab();
-		updateUserInfoTab = new UpdateUserInfoTab();
 		subscribeTab = new SubscribeTab();
 		adminTab = new AdminTab();
 
@@ -91,13 +84,11 @@ public class MainForm extends javax.swing.JFrame implements Observer {
         workspacePanel.addTab("Display panel", displayPanelTab);
         workspacePanel.addTab("Ticket", ticketTab);
         workspacePanel.addTab("Payment", paymentTab);
-        workspacePanel.addTab("Update", updateTab);
         workspacePanel.addTab("Subscribe", subscribeTab);
         workspacePanel.addTab("Administrator", adminTab);
         
 		workspacePanel.setEnabledAt(3, false);
 		workspacePanel.setEnabledAt(4, false);
-		workspacePanel.setEnabledAt(5, false);
 
         userMenu.setText("User");
 
@@ -177,42 +168,16 @@ public class MainForm extends javax.swing.JFrame implements Observer {
 	public void update(Observable arg0, Object arg1) {
 		User user = (User) arg1;
 		if (user != null) {
-			updateUserInfoTab.setCurrentUser(user);
 			subscribeTab.setCurrentUser(user);
 
 			workspacePanel.setEnabledAt(3, true);
-			workspacePanel.setEnabledAt(4, true);
 			subscribeTab.cleanSubscribeTabOnUserLogin();
 			if (user.isAdmin()) {
-				workspacePanel.setEnabledAt(5, true);
+				workspacePanel.setEnabledAt(4, true);
 			}
 			
 		}
 	}
-
-	/*private void displayPanelControlActionPerformed(java.awt.event.ActionEvent evt) {
-		workspacePanel.setSelectedIndex(0);
-	}
-
-	private void ticketControlActionPerformed(java.awt.event.ActionEvent evt) {
-		workspacePanel.setSelectedIndex(1);
-	}
-
-	private void paymentControlActionPerformed(java.awt.event.ActionEvent evt) {
-		workspacePanel.setSelectedIndex(2);
-	}
-
-	private void updateControlActionPerformed(java.awt.event.ActionEvent evt) {
-		workspacePanel.setSelectedIndex(3);
-	}
-
-	private void subscribeControlActionPerformed(java.awt.event.ActionEvent evt) {
-		workspacePanel.setSelectedIndex(4);
-	}
-
-	private void adminButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		workspacePanel.setSelectedIndex(5);
-	}*/
 
 	private void loginMenuItemMouseClicked() {
 		Point currentLocation = this.getLocationOnScreen();
@@ -225,11 +190,9 @@ public class MainForm extends javax.swing.JFrame implements Observer {
     }
 
     private void logoutMenuItemMouseClicked() {
-    	updateUserInfoTab.setCurrentUser(null);
 
 		workspacePanel.setEnabledAt(3, false);
 		workspacePanel.setEnabledAt(4, false);
-		workspacePanel.setEnabledAt(5, false);
 		/**
 		 * ensure that the unlogged user doesn't access other pages
 		 */

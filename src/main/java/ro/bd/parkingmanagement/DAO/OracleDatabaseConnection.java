@@ -68,12 +68,9 @@ public class OracleDatabaseConnection {
 		// >=20000 ==> custom errors
 		for (String errorMsg : errors) {
 			errorCode = Integer.valueOf(errorMsg.substring(4, 9));
-			if (errorCode >= 20000) {
+			if (errorCode >= 12000) {
 				System.err.println(errorMsg);
 				JOptionPane.showMessageDialog(null, errorMsg);
-			} else if (errorCode == 12899) {
-				System.err.println("ORA-12899: Invalid card number. It should contain 16 digits.");
-				JOptionPane.showMessageDialog(null, "ORA-12899: Invalid card number. It should contain 16 digits.");
 			}
 		}
 	}

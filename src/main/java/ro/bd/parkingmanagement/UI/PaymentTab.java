@@ -22,6 +22,7 @@ public class PaymentTab extends javax.swing.JPanel {
 	private javax.swing.JTextField cardNumberField;
 	private javax.swing.JLabel cardNumberLabel;
 	private javax.swing.JSpinner currentValueField;
+	private javax.swing.JLabel currentValueLabel;
 	private javax.swing.JButton computeFeeButton;
 	private javax.swing.JPasswordField cvvCodeField;
 	private javax.swing.JLabel cvvCodeLabel;
@@ -51,6 +52,7 @@ public class PaymentTab extends javax.swing.JPanel {
 		cardNumberField = new javax.swing.JTextField();
 		expiringDatePicker = new org.jdesktop.swingx.JXDatePicker();
 		cvvCodeField = new javax.swing.JPasswordField();
+		currentValueLabel = new javax.swing.JLabel();
 		currentValueField = new javax.swing.JSpinner();
 		insertTicketCodePanel = new javax.swing.JPanel();
 		ticketCodeField = new javax.swing.JTextField();
@@ -61,137 +63,176 @@ public class PaymentTab extends javax.swing.JPanel {
 		paymentProgressBar = new javax.swing.JProgressBar();
 		successLabel = new javax.swing.JLabel();
 
-		bankAccountDetailsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Bank account", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
-        bankAccountDetailsPanel.setFont(new java.awt.Font("Liberation Sans", 0, 12)); // NOI18N
+		// hide:
+		successLabel.setVisible(false);
+		feeLabel.setVisible(false);
+		paymentProgressBar.setVisible(false);
+		payButton.setVisible(false);
 
-        cardNumberLabel.setText("Card number:");
+		bankAccountDetailsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Bank account details",
+				javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Dialog", 0, 12))); // NOI18N
+		bankAccountDetailsPanel.setFont(new java.awt.Font("Liberation Sans", 0, 12)); // NOI18N
 
-        expiringDateLabel.setText("Expiring date:");
+		cardNumberLabel.setText("Card number:");
 
-        cvvCodeLabel.setText("CVV code:");
+		expiringDateLabel.setText("Expiring date:");
 
-        javax.swing.GroupLayout bankAccountDetailsPanelLayout = new javax.swing.GroupLayout(bankAccountDetailsPanel);
-        bankAccountDetailsPanel.setLayout(bankAccountDetailsPanelLayout);
-        bankAccountDetailsPanelLayout.setHorizontalGroup(
-            bankAccountDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bankAccountDetailsPanelLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(bankAccountDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(expiringDateLabel)
-                    .addComponent(cvvCodeLabel)
-                    .addComponent(cardNumberLabel))
-                .addGap(21, 21, 21)
-                .addGroup(bankAccountDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cardNumberField)
-                    .addComponent(cvvCodeField, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
-        bankAccountDetailsPanelLayout.setVerticalGroup(
-            bankAccountDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bankAccountDetailsPanelLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(bankAccountDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cardNumberLabel)
-                    .addComponent(cardNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(expiringDateLabel)
-                .addGap(14, 14, 14)
-                .addGroup(bankAccountDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cvvCodeLabel)
-                    .addComponent(cvvCodeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(29, Short.MAX_VALUE))
-        );
+		cvvCodeLabel.setText("CVV code:");
 
-        insertTicketCodePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Insert ticket code", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
+		currentValueLabel.setText("Current value:");
 
-        ticketCodeField.setToolTipText("ticket code");
+		currentValueField.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, null, 1.0d));
 
-        ticketCodeLabel.setText("Ticket code:");
+		javax.swing.GroupLayout bankAccountDetailsPanelLayout = new javax.swing.GroupLayout(bankAccountDetailsPanel);
+		bankAccountDetailsPanel.setLayout(bankAccountDetailsPanelLayout);
+		bankAccountDetailsPanelLayout.setHorizontalGroup(bankAccountDetailsPanelLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(bankAccountDetailsPanelLayout.createSequentialGroup().addContainerGap()
+						.addGroup(bankAccountDetailsPanelLayout
+								.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addGroup(bankAccountDetailsPanelLayout
+										.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+										.addComponent(cvvCodeLabel, javax.swing.GroupLayout.Alignment.LEADING,
+												javax.swing.GroupLayout.DEFAULT_SIZE,
+												javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(currentValueLabel, javax.swing.GroupLayout.Alignment.LEADING,
+												javax.swing.GroupLayout.DEFAULT_SIZE,
+												javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addComponent(expiringDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 107,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addComponent(cardNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 105,
+										javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addGap(21, 21, 21)
+						.addGroup(bankAccountDetailsPanelLayout
+								.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+								.addComponent(cardNumberField)
+								.addComponent(expiringDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, 0,
+										Short.MAX_VALUE)
+								.addComponent(cvvCodeField, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+								.addComponent(currentValueField))
+						.addContainerGap(20, Short.MAX_VALUE)));
+		bankAccountDetailsPanelLayout.setVerticalGroup(bankAccountDetailsPanelLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(bankAccountDetailsPanelLayout.createSequentialGroup().addGap(18, 18, 18)
+						.addGroup(bankAccountDetailsPanelLayout
+								.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+								.addComponent(cardNumberLabel).addComponent(cardNumberField,
+										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+						.addGroup(bankAccountDetailsPanelLayout
+								.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addComponent(expiringDateLabel)
+								.addComponent(expiringDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addGap(12, 12, 12)
+						.addGroup(bankAccountDetailsPanelLayout
+								.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addComponent(cvvCodeLabel).addComponent(cvvCodeField,
+										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+								javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGroup(bankAccountDetailsPanelLayout
+								.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addComponent(currentValueLabel).addComponent(currentValueField,
+										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.PREFERRED_SIZE))));
 
-        computeFeeButton.setText("Compute fee");
-        computeFeeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                computeFeeButtonActionPerformed(evt);
-            }
-        });
+		insertTicketCodePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Insert ticket code",
+				javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
+				new java.awt.Font("Dialog", 0, 12))); // NOI18N
 
-        feeLabel.setText("Fee:");
+		ticketCodeField.setToolTipText("ticket code");
 
-        javax.swing.GroupLayout insertTicketCodePanelLayout = new javax.swing.GroupLayout(insertTicketCodePanel);
-        insertTicketCodePanel.setLayout(insertTicketCodePanelLayout);
-        insertTicketCodePanelLayout.setHorizontalGroup(
-            insertTicketCodePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(insertTicketCodePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(insertTicketCodePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, insertTicketCodePanelLayout.createSequentialGroup()
-                        .addComponent(ticketCodeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                        .addComponent(ticketCodeField, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(insertTicketCodePanelLayout.createSequentialGroup()
-                        .addGroup(insertTicketCodePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(computeFeeButton)
-                            .addComponent(feeLabel))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        insertTicketCodePanelLayout.setVerticalGroup(
-            insertTicketCodePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(insertTicketCodePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(insertTicketCodePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ticketCodeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ticketCodeLabel))
-                .addGap(18, 18, 18)
-                .addComponent(computeFeeButton)
-                .addGap(18, 18, 18)
-                .addComponent(feeLabel)
-                .addContainerGap(22, Short.MAX_VALUE))
-        );
+		ticketCodeLabel.setText("Ticket code:");
 
-        payButton.setText("Pay");
-        payButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                payButtonActionPerformed(evt);
-            }
-        });
+		computeFeeButton.setText("Compute fee");
+		computeFeeButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				computeFeeButtonActionPerformed(evt);
+			}
+		});
 
-        successLabel.setForeground(new java.awt.Color(0, 170, 0));
-        successLabel.setText("Payment succeded! Drive safe!");
+		feeLabel.setText("Fee:");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(insertTicketCodePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addComponent(bankAccountDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(payButton, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
-                        .addComponent(successLabel)))
-                .addContainerGap(23, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(bankAccountDetailsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(insertTicketCodePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(payButton)
-                    .addComponent(successLabel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+		javax.swing.GroupLayout insertTicketCodePanelLayout = new javax.swing.GroupLayout(insertTicketCodePanel);
+		insertTicketCodePanel.setLayout(insertTicketCodePanelLayout);
+		insertTicketCodePanelLayout.setHorizontalGroup(insertTicketCodePanelLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(insertTicketCodePanelLayout.createSequentialGroup().addContainerGap()
+						.addGroup(insertTicketCodePanelLayout
+								.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+										insertTicketCodePanelLayout.createSequentialGroup()
+												.addComponent(ticketCodeLabel)
+												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21,
+														Short.MAX_VALUE)
+												.addComponent(ticketCodeField, javax.swing.GroupLayout.PREFERRED_SIZE,
+														160, javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addGroup(insertTicketCodePanelLayout.createSequentialGroup()
+										.addGroup(insertTicketCodePanelLayout
+												.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+												.addComponent(computeFeeButton).addComponent(feeLabel))
+										.addGap(0, 0, Short.MAX_VALUE)))
+						.addContainerGap()));
+		insertTicketCodePanelLayout.setVerticalGroup(insertTicketCodePanelLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(insertTicketCodePanelLayout.createSequentialGroup().addContainerGap()
+						.addGroup(insertTicketCodePanelLayout
+								.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+								.addComponent(ticketCodeField, javax.swing.GroupLayout.PREFERRED_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addComponent(ticketCodeLabel))
+						.addGap(18, 18, 18).addComponent(computeFeeButton).addGap(18, 18, 18).addComponent(feeLabel)
+						.addContainerGap(28, Short.MAX_VALUE)));
+
+		payButton.setText("Pay");
+		payButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				payButtonActionPerformed(evt);
+			}
+		});
+
+		successLabel.setForeground(new java.awt.Color(0, 170, 0));
+		successLabel.setText("Payment succeded! Drive safe!");
+
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+		this.setLayout(layout);
+		layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
+				.createSequentialGroup().addGap(20, 20, 20)
+				.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(layout.createSequentialGroup()
+								.addComponent(insertTicketCodePanel, javax.swing.GroupLayout.PREFERRED_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addGap(31, 31, 31).addComponent(bankAccountDetailsPanel,
+										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addGroup(layout.createSequentialGroup()
+								.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+										.addComponent(paymentProgressBar, javax.swing.GroupLayout.Alignment.LEADING,
+												javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+										.addComponent(payButton, javax.swing.GroupLayout.Alignment.LEADING,
+												javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))
+								.addGap(48, 48, 48).addComponent(successLabel)))
+				.addContainerGap(23, Short.MAX_VALUE)));
+		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup().addGap(21, 21, 21)
+						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+								.addComponent(insertTicketCodePanel, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(bankAccountDetailsPanel, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+						.addComponent(paymentProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 25,
+								javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addGap(18, 18, 18)
+						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+								.addComponent(payButton).addComponent(successLabel))
+						.addContainerGap(81, Short.MAX_VALUE)));
 
 	}
-
 	/**
 	 * @param ticketCode
 	 *            - is used to extract the entry time
@@ -214,8 +255,8 @@ public class PaymentTab extends javax.swing.JPanel {
 		/**
 		 * adjustments for UTC + 3
 		 */
-		LocalDateTime startTime = LocalDateTime.ofInstant(entryTime.toInstant(), ZoneOffset.UTC).plusYears(2000)
-				.plusDays(2).plusHours(2).minusMonths(1);
+		LocalDateTime startTime = LocalDateTime.ofInstant(entryTime.toInstant(), ZoneOffset.UTC)
+				.plusHours(2);
 		LocalDateTime endTime = LocalDateTime.ofInstant(Calendar.getInstance().toInstant(), ZoneOffset.UTC)
 				.plusHours(3);
 		return (int) Duration.between(startTime, endTime).toHours();
@@ -308,20 +349,10 @@ public class PaymentTab extends javax.swing.JPanel {
 			JOptionPane.showMessageDialog(null, "Invalid ticket code");
 		}
 		if (ticketDAO.payTicket(ticketCode, cardNumber, accountBalance, currentFee)) {
-			paymentProgressBar.setVisible(true);
-			paymentProgressBar.setEnabled(true);
 			final double accountBalanceFinal = accountBalance;
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					for (int i = 1; i <= 100; i++) {
-						paymentProgressBar.setValue(i);
-						try {
-							Thread.sleep(10);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
 					currentValueField.setValue(accountBalanceFinal - currentFee);
 					successLabel.setVisible(true);
 				}

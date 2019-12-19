@@ -253,7 +253,7 @@ public class UserDAOImpl extends OracleDatabaseConnection implements UserDAO {
 		try {
 			List<User> userList = new ArrayList<User>();
 			connect = DriverManager.getConnection(databaseURL, user, password);
-			preparedStatement = connect.prepareStatement("SELECT * FROM users");
+			preparedStatement = connect.prepareStatement("SELECT * FROM users ORDER BY username");
 			resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				User user = new User();

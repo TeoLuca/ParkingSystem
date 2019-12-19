@@ -31,7 +31,7 @@ public class TicketTab extends javax.swing.JPanel {
 
 	private void initComponents() {
 
-		ticketDetailsPanel = new javax.swing.JPanel();
+        ticketDetailsPanel = new javax.swing.JPanel();
         ticketCodeLabel = new javax.swing.JLabel();
         floorLabel = new javax.swing.JLabel();
         parkingSpaceLabel = new javax.swing.JLabel();
@@ -40,7 +40,7 @@ public class TicketTab extends javax.swing.JPanel {
         parkingSpaceNumber = new javax.swing.JTextField();
         getTicketButton = new javax.swing.JButton();
 
-        ticketDetailsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ticket", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
+        ticketDetailsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ticket details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
 
         ticketCodeLabel.setText("Ticket code:");
 
@@ -64,11 +64,11 @@ public class TicketTab extends javax.swing.JPanel {
                     .addComponent(ticketCodeLabel)
                     .addComponent(floorLabel)
                     .addComponent(parkingSpaceLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                 .addGroup(ticketDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(ticketCode)
-                    .addComponent(floor)
-                    .addComponent(parkingSpaceNumber, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
+                    .addComponent(ticketCode, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                    .addComponent(floor, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(parkingSpaceNumber, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         ticketDetailsPanelLayout.setVerticalGroup(
@@ -86,7 +86,7 @@ public class TicketTab extends javax.swing.JPanel {
                 .addGroup(ticketDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(parkingSpaceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(parkingSpaceNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
 
         getTicketButton.setText("Get ticket");
@@ -101,25 +101,25 @@ public class TicketTab extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ticketDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(getTicketButton, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(58, Short.MAX_VALUE))
+                        .addGap(76, 76, 76)
+                        .addComponent(getTicketButton, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(ticketDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(241, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(21, 21, 21)
                 .addComponent(getTicketButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(ticketDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75))
+                .addGap(41, 41, 41))
         );
-	}
-
+    }
 	/**
 	 * @return Ticket if there is an available parking lot
 	 */
@@ -135,7 +135,7 @@ public class TicketTab extends javax.swing.JPanel {
 		parkingSpaceDAO.updateParkingAvailability(parkingLot.getLotNo(), false);
 
 		/** code = time in milliseconds */
-		String code = calendar.getTime().toString();
+		String code = "" + calendar.getTimeInMillis();
 
 		return ticketDAO.insertTicket(new Ticket(code, parkingLot.getFloorNo(), parkingLot.getLotNo()));
 	}
@@ -144,7 +144,7 @@ public class TicketTab extends javax.swing.JPanel {
 		ticketCode.setText("");
 		floor.setText("");
 		parkingSpaceNumber.setText("");
-		ticketDetailsPanel.setVisible(false);
+		//ticketDetailsPanel.setVisible(false);
 	}
 
 	private void getTicketButtonActionPerformed(java.awt.event.ActionEvent evt) {

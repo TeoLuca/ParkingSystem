@@ -62,7 +62,7 @@ public class PriceDAOImpl extends OracleDatabaseConnection implements PriceDAO {
 		
 			int dialogButton = JOptionPane.YES_NO_OPTION;
 			int dialogResult = JOptionPane.showConfirmDialog(null,
-					"Are you sure you want to delete dayPrice=" + dayPrice + " and nighrPrice="+nightPrice+"category price?", "Warning", dialogButton);
+					"Are you sure you want to delete dayPrice=" + dayPrice + " and nightPrice="+nightPrice+" ?", "Warning", dialogButton);
 			if (dialogResult == JOptionPane.YES_OPTION) {
 				if (deletePrice(id) == true)
 					((DefaultTableModel) table.getModel()).removeRow(modelRow);
@@ -86,6 +86,10 @@ public class PriceDAOImpl extends OracleDatabaseConnection implements PriceDAO {
 						id = ((java.math.BigDecimal) objId).intValue();
 					} else
 						id = (int) objId;
+					if (price.getDayPrice() <5 || price.getDayPrice() > 10 || price.getNightPrice() < 1 || price.getNightPrice() > 5 ){
+						JOptionPane.showMessageDialog(null, "DayPrice not in [5,10] or NightPrice not in [1,5]");
+						return;
+					}
 					price.setPriceId(id);
 					updatePrice(id, price);
 				}
@@ -94,7 +98,11 @@ public class PriceDAOImpl extends OracleDatabaseConnection implements PriceDAO {
 				Price price = checkTableEntry(table, modelRow);
 				if (price != null) {
 					price = insertPrice(price);
+					if (price == null){
+						JOptionPane.showMessageDialog(null, "DayPrice not in [5,10] or NightPrice not in [1,5]");
+					} else {
 					((DefaultTableModel) table.getModel()).setValueAt(price.getPriceId(), modelRow, 0);
+					}
 				}
 			}
 		}
@@ -118,7 +126,7 @@ public class PriceDAOImpl extends OracleDatabaseConnection implements PriceDAO {
 		if (objNightPrice != null)
 			if (objNightPrice instanceof BigDecimal)
 				nightPrice = ((BigDecimal) objNightPrice).doubleValue();
-			else if (objDayPrice instanceof Double)
+			else if (objNightPrice instanceof Double)
 				nightPrice = (double) objNightPrice;
 			else
 				nightPrice =-1;
@@ -185,7 +193,7 @@ public class PriceDAOImpl extends OracleDatabaseConnection implements PriceDAO {
 	public synchronized Price insertPrice(Price price) {
 		try {
 			connect = DriverManager.getConnection(databaseURL, user, password);
-			String sql = "insert into prices(dayPrice, nightPrice) values (?, ?)";
+			String sql = "insert into prices(day_price, night_price) values (?, ?)";
 			preparedStatement = connect.prepareStatement(sql, new String[] { "price_id" });
 			/** Parameters start with 1 */
 			preparedStatement.setDouble(1, price.getDayPrice());
@@ -238,7 +246,7 @@ public class PriceDAOImpl extends OracleDatabaseConnection implements PriceDAO {
 			try {
 				connect = DriverManager.getConnection(databaseURL, user, password);
 				preparedStatement = connect.prepareStatement(
-						"UPDATE prices SET dayPrice=?, nightPrice=? WHERE price_id=" + id);
+						"UPDATE prices SET day_price=?, night_price=? WHERE price_id=" + id);
 				preparedStatement.setDouble(1, price.getDayPrice());
 				preparedStatement.setDouble(2, price.getNightPrice());
 				preparedStatement.executeUpdate();

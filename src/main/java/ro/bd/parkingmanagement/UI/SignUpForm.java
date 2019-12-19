@@ -2,6 +2,8 @@ package ro.bd.parkingmanagement.UI;
 
 import java.util.Date;
 
+import javax.swing.JOptionPane;
+
 import ro.bd.parkingmanagement.DAO.BankAccountDAO;
 import ro.bd.parkingmanagement.DAO.BankAccountDAOImpl;
 import ro.bd.parkingmanagement.DAO.UserDAO;
@@ -32,7 +34,6 @@ public class SignUpForm extends javax.swing.JFrame {
 	private javax.swing.JPanel userDetailsPanel;
 	private javax.swing.JTextField usernameField;
 	private javax.swing.JLabel usernameLabel;
-	private javax.swing.JComboBox<String> vehicleTypeComboBox;
 
 	private static UserDAO userDAO = new UserDAOImpl();
 	private static BankAccountDAO bankAccountDAO = new BankAccountDAOImpl();
@@ -61,7 +62,7 @@ public class SignUpForm extends javax.swing.JFrame {
         emailField = new javax.swing.JTextField();
         bankAccountDetailsPanel = new javax.swing.JPanel();
 		currentValueLabel = new javax.swing.JLabel();
-		currentValueField = new javax.swing.JSpinner();
+		currentValueField = new javax.swing.JSpinner(new javax.swing.SpinnerNumberModel(0, 0, 1000000, 1));
         expiringDatePicker = new org.jdesktop.swingx.JXDatePicker();
         cardNumberLabel = new javax.swing.JLabel();
         expiringDateLabel = new javax.swing.JLabel();
@@ -77,7 +78,7 @@ public class SignUpForm extends javax.swing.JFrame {
         userDetailsPanel.setFont(new java.awt.Font("Liberation Sans", 0, 12)); // NOI18N
 
         usernameLabel.setText("Username:");
-
+        currentValueLabel.setText("Account balance:");
         passwordLabel.setText("Password:");
 
         emailLabel.setText("Email:");
@@ -235,7 +236,6 @@ public class SignUpForm extends javax.swing.JFrame {
 		usernameField.setText("");
 		emailField.setText("");
 		passwordField.setText("");
-		vehicleTypeComboBox.setSelectedIndex(0);
 		cardNumberField.setText("");
 		expiringDatePicker.setDate(null);
 		cvvCodeField.setText("");
@@ -283,8 +283,9 @@ public class SignUpForm extends javax.swing.JFrame {
 			BankAccount bankAccount = new BankAccount(user.getUserId(), cardNumber,
 					new java.sql.Date(expiringDate.getTime()), cvvCode, (double) accountBalance);
 			bankAccountDAO.createBankAccount(bankAccount);
-			errorLabel.setText("The account was successfully created");
 			clearForm();
+			this.setVisible(false);
+			JOptionPane.showMessageDialog(null, "The account was successfully created");
 		}
 	}
 

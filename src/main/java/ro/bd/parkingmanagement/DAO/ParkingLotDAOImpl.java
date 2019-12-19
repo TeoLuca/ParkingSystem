@@ -30,8 +30,12 @@ public class ParkingLotDAOImpl extends OracleDatabaseConnection implements Parki
 			int modelRow = Integer.valueOf(e.getActionCommand());
 			Object obj = (((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0));
 			int lotNo;
-			if (obj != null)
-				lotNo = (int) obj;
+			if (obj != null) {
+				if (obj instanceof java.math.BigDecimal) {
+					lotNo = ((java.math.BigDecimal) obj).intValue();
+				} else
+					lotNo = (int) obj;
+			}
 			else {
 				((DefaultTableModel) table.getModel()).removeRow(modelRow);
 				return;
@@ -56,18 +60,21 @@ public class ParkingLotDAOImpl extends OracleDatabaseConnection implements Parki
 			Object objLotId = (((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0));
 			int lotId=-1;
 			if (objLotId != null) {
-				// Update parkingSpace
+				// Update parkingLot
 				ParkingLot parkingLot = checkTableEntry(table, modelRow);
 				if (parkingLot != null) {
-					lotId = (Integer) objLotId;
+					if (objLotId instanceof java.math.BigDecimal) {
+						lotId = ((java.math.BigDecimal) objLotId).intValue();
+					} else
+						lotId = (int) objLotId;
 					parkingLot.setLotNo(lotId);;
 					updateParkingAvailability(lotId, parkingLot.isAvailability());
 				}
 			} else {
-				// Create parkingSpace
+				// Create parkingLot
 				ParkingLot parkingLot = checkTableEntry(table, modelRow);
 				if (parkingLot != null) {
-					insertParkingLot(parkingLot);
+					parkingLot = insertParkingLot(parkingLot);
 					((DefaultTableModel) table.getModel()).setValueAt(parkingLot.getLotNo(), modelRow, 0);
 				}
 			}
@@ -81,7 +88,15 @@ public class ParkingLotDAOImpl extends OracleDatabaseConnection implements Parki
 
 		boolean available;
 		int floor;
-		int lotId = (int)objLotId;
+		int lotId = -1;
+		if (objLotId != null) {
+			if (objLotId instanceof java.math.BigDecimal) {
+				lotId = ((java.math.BigDecimal) objLotId).intValue();
+			} else
+				lotId = (int) objLotId;
+		}
+		
+		
 		if (objAvailable != null)
 			if (objAvailable instanceof String) {
 				String av = (String) objAvailable;
@@ -296,7 +311,8 @@ public class ParkingLotDAOImpl extends OracleDatabaseConnection implements Parki
 
 				CallableStatement cstmt = connect.prepareCall(call);
 				cstmt.setInt(1, parkingLot.getLotNo());
-				cstmt.setBoolean(2, parkingLot.isAvailability());
+				String available = parkingLot.isAvailability()? "1": "0";
+				cstmt.setString(2, available);
 				cstmt.executeUpdate();
 				return parkingLot;
 			} catch (SQLException exception) {
